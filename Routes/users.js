@@ -40,29 +40,44 @@ router.get('/:idPokemon', (req, res) => {
 router.delete('/:idPokemon', (req, res) => {
     var releaseChance = chance.prime({ min: 1, max: 10 });
     console.log(releaseChance);
-    if (releaseChance === 1 || releaseChance === 3 || releaseChance === 5 || releaseChance === 7){
+    if (releaseChance === 1 || releaseChance === 3 || releaseChance === 5 || releaseChance === 7) {
         const { idPokemon } = req.params;
         const deleteUser = pokemon.find((pokemon) => pokemon.idPokemon === idPokemon);
-    
+
         const index = pokemon.indexOf(deleteUser);
         pokemon.splice(index, 1);
-    
+
         res.send(deleteUser);
     } else {
         res.send('coba lagi');
     }
 
-    
+
 
 });
 
 router.put('/:idPokemon', (req, res) => {
+    
+    // console.log(fiboNumber);
     const { idPokemon } = req.params;
     const updateUser = pokemon.find((pokemon) => pokemon.idPokemon === idPokemon);
+    console.log(updateUser);
+    let jumlahEditPokemon= req.body.editPokemon;
+    console.log(`sebelum increment ${jumlahEditPokemon}`);
+    jumlahEditPokemon++;
+    console.log(` setelah increment ${jumlahEditPokemon}`);
 
-    updateUser.namaPokemon = req.body.namaPokemon;
-    updateUSer.editPokemon = req.body.editPokemon;
+
+    updateUser.namaPokemon = req.body.namaPokemon + ' - ' + fib(req.body.editPokemon);
+    updateUser.editPokemon = jumlahEditPokemon;
+    
     res.send(updateUser);
+    
 });
+
+function fib(n) {
+    if (n < 3) return 1;
+    return fib(n - 1) + fib(n - 2);
+}
 
 export default router;
